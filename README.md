@@ -6,4 +6,4 @@ I used UUID characteristics to send and receive data.
 
 The server side reads and process potentiometer data and sends it to the client side throughout Bluetooth Low Energy.
 
-[embed]pictoric.pdf[/embed]
+![Pictoric BLEServer Diagram](pictoric.jpg)
