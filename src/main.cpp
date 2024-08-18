@@ -10,49 +10,66 @@
 #define CHARACTERISTIC_UUID "ec0e8b64-33ae-11ec-8d3d-0242ac130003"  // Unique ID for the characteristic
 
 bool deviceConnected = false;
+BLEServer *pServer = nullptr;
 uint32_t pwmValue = 0;
 
 BLECharacteristic *pCharacteristic;
 
-//Setup callbacks onConnect and onDisconnect
+// MAC address 
+const char* allowedClientMAC = "08:d1:f9:e8:56:96";
+
 class MyServerCallbacks: public BLEServerCallbacks {
   void onConnect(BLEServer* pServer) {
     deviceConnected = true;
-    Serial.println("Client Connected");
+    Serial.println("Client connected");
   };
+
   void onDisconnect(BLEServer* pServer) {
     deviceConnected = false;
-    Serial.println("Client Disconnected");
+    Serial.println("Client disconnected");
+  }
+};
+
+class MyCallbacks: public BLECharacteristicCallbacks {
+  void onWrite(BLECharacteristic *pCharacteristic) {
+    std::string value = pCharacteristic->getValue();
+    Serial.print("Received value: ");
+    Serial.println(value.c_str());
+
+    // Check if the received value is the allowed MAC address
+    if (value == allowedClientMAC) {
+      Serial.println("Allowed client connected");
+    } else {
+      Serial.println("Unauthorized client tried to connect");
+      pServer->disconnect(0);
+    }
   }
 };
 
 void setup() {
   Serial.begin(115200);
 
-  // Create the BLE Device
   BLEDevice::init(bleServerName);
 
-  // Create the BLE Server
   BLEServer *pServer = BLEDevice::createServer();
   pServer->setCallbacks(new MyServerCallbacks());
 
-  // Create the BLE Service
   BLEService *potService = pServer->createService(SERVICE_UUID);
 
   // Create a BLE Characteristic for the PWM value
   pCharacteristic = potService->createCharacteristic(
                       CHARACTERISTIC_UUID,
                       BLECharacteristic::PROPERTY_READ |
-                      BLECharacteristic::PROPERTY_NOTIFY
+                      BLECharacteristic::PROPERTY_NOTIFY |
+                      BLECharacteristic::PROPERTY_WRITE
                     );
 
   pCharacteristic->addDescriptor(new BLE2902());
+  pCharacteristic->setCallbacks(new MyCallbacks());
 
-  // Start the service
   potService->start();
   Serial.println("Service started");
 
-  // Start advertising
   BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
   pAdvertising->addServiceUUID(SERVICE_UUID);
   pServer->getAdvertising()->start();
@@ -61,20 +78,17 @@ void setup() {
 
 void loop() {
   if (deviceConnected) {
-    // Read the potentiometer value
     int potValue = analogRead(POT_PIN);
 
-    // Map the potentiometer value to PWM range (0-255)
     pwmValue = map(potValue, 0, 4095, 0, 255);
 
-    // Send the PWM value to the client
     pCharacteristic->setValue(pwmValue);
     pCharacteristic->notify();
 
     Serial.print("Sent PWM Value: ");
     Serial.println(pwmValue);
 
-    delay(500);  // Update every 500ms
+    delay(500);
   } else {
     delay(1000);  // Wait for client connection
   }
