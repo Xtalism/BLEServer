@@ -16,7 +16,7 @@ uint32_t pwmValue = 0;
 BLECharacteristic *pCharacteristic;
 
 // MAC address 
-const char* allowedClientMAC = "08:d1:f9:e8:56:96";
+const char* allowedClientMAC = "XX:XX:XX:XX:XX:XX";
 
 class MyServerCallbacks: public BLEServerCallbacks {
   void onConnect(BLEServer* pServer) {
