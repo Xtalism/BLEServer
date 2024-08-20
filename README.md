@@ -46,7 +46,11 @@ This project demonstrates communication between two ESP32 devices using Bluetoot
    - The server will start reading potentiometer data and send it to the client.
    - The client will receive the data and adjust the LED brightness accordingly.
 
-## Conclusion
+## Documentation Resource
+
+For more detailed information on BLE with ESP32, refer to the [ESP32 BLE UART Documentation](https://docs.espressif.com/projects/arduino-esp32/en/latest/api/ble.html#ble-uart).
+
+## Last Thoughts
 
 This project showcases the capabilities of BLE communication between ESP32 devices, enabling real-time data exchange and control. It serves as a foundation for more complex IoT applications.
 
