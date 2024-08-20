@@ -4,7 +4,7 @@
 #include <BLEUtils.h>
 #include <BLE2902.h>
 
-#define bleServerName "MANUEL_ESP32"
+#define bleServerName "NAME"
 #define POT_PIN 2
 #define SERVICE_UUID "91bad492-b950-4226-aa2b-4ede9fa42f59"
 #define CHARACTERISTIC_UUID "ec0e8b64-33ae-11ec-8d3d-0242ac130003"  // Unique ID for the characteristic
@@ -16,7 +16,7 @@ uint32_t pwmValue = 0;
 BLECharacteristic *pCharacteristic;
 
 // MAC address 
-const char* allowedClientMAC = "08:d1:f9:e8:56:96";
+const char* allowedClientMAC = "XX:XX:XX:XX:XX:XX";
 
 class MyServerCallbacks: public BLEServerCallbacks {
   void onConnect(BLEServer* pServer) {
