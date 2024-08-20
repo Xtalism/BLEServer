@@ -4,6 +4,10 @@
 
 This project demonstrates communication between two ESP32 devices using Bluetooth Low Energy (BLE) with the BLEServer library. The setup involves a server-client architecture where data is exchanged seamlessly between the two devices.
 
+## Important Reference
+
+To ensure both codes work seamlessly together, please refer to the [BLEServer repository](https://github.com/Xtalism/BLEClient). It is crucial to make both the server and client codes work in tandem for successful communication and data exchange.
+
 ## Features
 
 - **UUID Characteristics**: Utilizes UUID characteristics for sending and receiving data.
