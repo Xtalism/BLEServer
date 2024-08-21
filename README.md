@@ -6,7 +6,7 @@ This project demonstrates communication between two ESP32 devices using Bluetoot
 
 ## Important
 
-To ensure both codes work seamlessly together, please refer to the [BLEServer repository](https://github.com/Xtalism/BLEClient). It is crucial to make both the server and client codes work in tandem for successful communication and data exchange.
+To ensure both codes work seamlessly together, please refer to the [BLEClient repository](https://github.com/Xtalism/BLEClient). It is crucial to make both the server and client codes work in tandem for successful communication and data exchange.
 
 ## Features
 
